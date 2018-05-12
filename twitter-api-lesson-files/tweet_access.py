@@ -1,8 +1,10 @@
 import json
 import tweepy
+# keep credentials in a seperate folder so it need to be imported. also the file is added to the '.gitignore' file.
 import credentials
 from tweepy import OAuthHandler
 
+# to access the credentials in the file we add 'credentials.' beforehand.
 auth = OAuthHandler(credentials.CONSUMER_KEY, credentials.CONSUMER_SECRET)
 auth.set_access_token(credentials.OAUTH_TOKEN, credentials.OAUTH_TOKEN_SECRET)
 api = tweepy.API(auth)
@@ -14,4 +16,4 @@ query = 'Dublin'
 results = [status for status in tweepy.Cursor(api.search, q=query).items(count)]
 
 for result in results:
-    print result
+    print json.dumps(result._json, indent=2)
