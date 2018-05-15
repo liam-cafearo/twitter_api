@@ -3,6 +3,8 @@ import tweepy
 # keep credentials in a seperate folder so it need to be imported. also the file is added to the '.gitignore' file.
 import credentials
 from tweepy import OAuthHandler
+# import Python's Counter Class
+from collections import Counter
 
 # to access the credentials in the file we add 'credentials.' beforehand.
 auth = OAuthHandler(credentials.CONSUMER_KEY, credentials.CONSUMER_SECRET)
@@ -17,20 +19,19 @@ results = [status for status in tweepy.Cursor(api.search, q=query).items(count)]
 
 status_texts = [ status._json['text'] for status in results ]
 
-screen_names = [ status._json['user']['scren_name']
-                                for status in results
-                                        for mention in status._json['entitles']['user_mentions'] ]
+screen_names = [ status._json['user']['screen_name']
+                for status in results
+                for mention in status._json['entities']['user_mentions'] ]
 
 hashtags = [ hashtag['text']
-                                for status in results
-                                        for hashtag in status._json['entitles']['hashtags'] ]
+                for status in results
+                for hashtag in status._json['entities']['hashtags'] ]
 
-words = [ words
-                                for status in status_texts
-                                        for word in text.split() ]
+words = [ w for t in status_texts
+        for w in t.split()]
 
 
-print json.dumps(status_texts[0.5], indent=1)
-print json.dumps(screen_names[0.5], indent=1)
-print json.dumps(hashtags[0.5], indent=1)
-print json.dumps(words[0.5], indent=1)
+for entry in [screen_names, hashtags, words]:
+        counter = Counter(entry)
+        print counter.most_common()[:10] # the top 10 results
+        print
