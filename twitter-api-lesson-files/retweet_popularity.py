@@ -11,7 +11,9 @@ from operator import itemgetter
 
 auth = OAuthHandler(credentials.CONSUMER_KEY, credentials.CONSUMER_SECRET)
 auth.set_access_token(credentials.OAUTH_TOKEN, credentials.OAUTH_TOKEN_SECRET)
-# make a note about line 12
+# Create an instance of the Tweepy API that will do the actual data access. 
+# In order for Twitter to allow the access to the API, you pass in the 
+# OAuthHandler object when instantiating it.
 api = tweepy.API(auth)
 
 count = 150
