@@ -56,13 +56,17 @@ statuses['java'] = statuses['text'].apply(lambda status: is_token_in_tweet_text(
 statuses['c#'] = statuses['text'].apply(lambda status: is_token_in_tweet_text('c#', status))
 statuses['ruby'] = statuses['text'].apply(lambda status: is_token_in_tweet_text('ruby', status))
 
-# output the number of tweets where it is True and that contain our keywords
+# output the number of tweets where it is True (matches keywords) and that contain our keywords
 print statuses['python'].value_counts()[True]
 print statuses['java'].value_counts()[True]
 print statuses['c#'].value_counts()[True]
 print statuses['ruby'].value_counts()[True]
 
-slices = []
+
+slices = [statuses['python'].value_counts()[True],
+            statuses['java'].value_counts()[True],
+            statuses['c#'].value_counts()[True],
+            statuses['ruby'].value_counts()[True]]
 activities = ['python', 'java', 'c#', 'ruby']
 cols = ['c','m','r','b']
 
